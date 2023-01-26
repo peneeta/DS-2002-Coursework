@@ -29,7 +29,12 @@ WHERE discontinued <> 0;
 -- ------------------------------------------------------------------
 SELECT product_name, list_price 
 FROM northwind.products
-WHERE list_price =  (SELECT MIN(list_price) FROM northwind.products);
+-- Least Expensive
+WHERE list_price = (SELECT MIN(list_price) FROM northwind.products)
+
+-- Most Expensive
+OR list_price = (SELECT MAX(list_price) FROM northwind.products);
+
 
 -- ------------------------------------------------------------------
 -- 5). Product ID, Name & List Price Costing Less Than $20
