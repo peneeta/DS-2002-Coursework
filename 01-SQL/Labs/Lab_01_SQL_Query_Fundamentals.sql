@@ -39,23 +39,36 @@ OR list_price = (SELECT MAX(list_price) FROM northwind.products);
 -- ------------------------------------------------------------------
 -- 5). Product ID, Name & List Price Costing Less Than $20
 -- ------------------------------------------------------------------
-
+SELECT id
+	, product_name
+    , list_price
+FROM northwind.products
+WHERE list_price < 20;
 
 -- ------------------------------------------------------------------
 -- 6). Product ID, Name & List Price Costing Between $15 and $20
 -- ------------------------------------------------------------------
-
-
+SELECT id
+	, product_name
+    , list_price
+FROM northwind.products
+WHERE list_price BETWEEN 15 AND 20;
 
 -- ------------------------------------------------------------------
 -- 7). Product Name & List Price Costing Above Average List Price
 -- ------------------------------------------------------------------
-
+SELECT product_name
+	, list_price
+FROM northwind.products
+WHERE list_price > (SELECT AVG(list_price) FROM northwind.products);
 
 -- ------------------------------------------------------------------
 -- 8). Product Name & List Price of 10 Most Expensive Products 
 -- ------------------------------------------------------------------
-
+SELECT product_name
+	, list_price
+FROM northwind.products;
+-- USE top to get top number of values
 
 -- ------------------------------------------------------------------ 
 -- 9). Count of Current and Discontinued Products 
