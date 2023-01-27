@@ -67,12 +67,21 @@ WHERE list_price > (SELECT AVG(list_price) FROM northwind.products);
 -- ------------------------------------------------------------------
 SELECT product_name
 	, list_price
-FROM northwind.products;
--- USE top to get top number of values
+FROM northwind.products 
+ORDER BY list_price DESC
+LIMIT 10;
 
 -- ------------------------------------------------------------------ 
 -- 9). Count of Current and Discontinued Products 
 -- ------------------------------------------------------------------
+-- Double-Checking distinct values in discontinued column
+SELECT COUNT(DISTINCT discontinued) as prodtype
+FROM northwind.products;
+
+-- There doesn't seem to be any discontinued products
+SELECT discontinued, COUNT(*) as freq 
+FROM northwind.products
+GROUP BY discontinued;
 
 
 -- ------------------------------------------------------------------
