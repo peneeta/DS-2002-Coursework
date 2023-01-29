@@ -115,12 +115,26 @@ HAVING unitsStocked < unitsOrdered;
 -- ------------------------------------------------------------------
 -- 11). Products with Supplier Company & Address Info
 -- ------------------------------------------------------------------
+WITH supplierDetails AS (
+SELECT supplier_ids, product_name
+	, supplier.company AS company
+    , CONCAT(supplier.address, ' ', supplier.city, ' ', supplier.state_province, ' ', supplier.zip_postal_code, ' ') AS address
+    FROM northwind.products AS prod
+    
+    JOIN northwind.suppliers AS supplier
+    ON supplier_ids = supplier.id
+)
+
+SELECT supplier_ids
+	, company
+	, address
+    , product_name
+FROM supplierDetails
+ORDER BY supplier_ids;
 
 -- ------------------------------------------------------------------
 -- 12). Number of Products per Category With Less Than 5 Units
 -- ------------------------------------------------------------------
-
 -- ------------------------------------------------------------------
 -- 13). Number of Products per Category Priced Less Than $20.00
 -- ------------------------------------------------------------------
-
