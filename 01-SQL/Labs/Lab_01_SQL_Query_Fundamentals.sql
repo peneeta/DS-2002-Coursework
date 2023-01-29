@@ -87,13 +87,27 @@ GROUP BY discontinued;
 -- 10). Product Name, Units on Order and Units in Stock
 --      Where Quantity In-Stock is Less Than the Quantity On-Order. 
 -- ------------------------------------------------------------------
-SELECT id AS product_id, product_name
-FROM northwind.products
+WITH stocking AS (
+	-- Get products in inventory and products on order
+	SELECT prod.id AS product_id, product_name
+		, orderDeets.quantity AS OnOrder
+		, invent.quantity AS InStock
+	FROM northwind.products AS prod
 
-LEFT JOIN northwind.order_details
-ON product_id = order_details.product_id;
+	LEFT OUTER JOIN northwind.order_details AS orderDeets
+	ON prod.id = orderDeets.product_id
+	LEFT OUTER JOIN northwind.inventory_transactions AS invent
+	ON orderDeets.product_id  = invent.product_id
+)
+-- Select by unitsStocked is less than unitsOrdered using HAVING
+SELECT product_name
+	, SUM(OnOrder) AS unitsOrdered
+    , SUM(InStock) AS unitsStocked
+FROM stocking
+GROUP BY product_name
+HAVING unitsStocked < unitsOrdered;
 
-
+-- It appears that more Beer and Ravioli units need to be bought in order to keep up with demand.
 
 -- ------------------------------------------------------------------
 -- EXTRA CREDIT -----------------------------------------------------
@@ -101,9 +115,12 @@ ON product_id = order_details.product_id;
 -- ------------------------------------------------------------------
 -- 11). Products with Supplier Company & Address Info
 -- ------------------------------------------------------------------
+
 -- ------------------------------------------------------------------
 -- 12). Number of Products per Category With Less Than 5 Units
 -- ------------------------------------------------------------------
+
 -- ------------------------------------------------------------------
 -- 13). Number of Products per Category Priced Less Than $20.00
 -- ------------------------------------------------------------------
+
