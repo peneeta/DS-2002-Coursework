@@ -83,31 +83,27 @@ SELECT discontinued, COUNT(*) as freq
 FROM northwind.products
 GROUP BY discontinued;
 
-
 -- ------------------------------------------------------------------
 -- 10). Product Name, Units on Order and Units in Stock
 --      Where Quantity In-Stock is Less Than the Quantity On-Order. 
 -- ------------------------------------------------------------------
+SELECT id AS product_id, product_name
+FROM northwind.products
+
+LEFT JOIN northwind.order_details
+ON product_id = order_details.product_id;
 
 
 
 -- ------------------------------------------------------------------
 -- EXTRA CREDIT -----------------------------------------------------
 -- ------------------------------------------------------------------
-
-
 -- ------------------------------------------------------------------
 -- 11). Products with Supplier Company & Address Info
 -- ------------------------------------------------------------------
-
-
-
 -- ------------------------------------------------------------------
 -- 12). Number of Products per Category With Less Than 5 Units
 -- ------------------------------------------------------------------
-
-
-
 -- ------------------------------------------------------------------
 -- 13). Number of Products per Category Priced Less Than $20.00
 -- ------------------------------------------------------------------
