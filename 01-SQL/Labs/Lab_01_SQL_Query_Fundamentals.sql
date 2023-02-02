@@ -79,7 +79,7 @@ SELECT COUNT(DISTINCT discontinued) as prodtype
 FROM northwind.products;
 
 -- There doesn't seem to be any discontinued products
-SELECT discontinued, COUNT(*) as freq 
+SELECT discontinued, COUNT(*) as prod_count 
 FROM northwind.products
 GROUP BY discontinued;
 
