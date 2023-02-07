@@ -1,5 +1,5 @@
 # DROP database `northwind_dw`;
-CREATE DATABASE `Northwind_DW3` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `Northwind_DW3` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE Northwind_DW3;
 
@@ -108,5 +108,30 @@ CREATE TABLE `dim_suppliers` (
 --       orders_status tables to create a new Fact Table in Northwind_DW.
 -- To keep things simple, don't include purchase order or inventory info
 -- ----------------------------------------------------------------------
-# DROP TABLE `fact_orders`;
-CREATE TABLE `fact_orders`;
+DROP TABLE `fact_orders`;
+CREATE TABLE `fact_orders` AS
+SELECT o.order_date
+	, o.shipped_date
+	, o.ship_name
+	, o.ship_address
+    , o.ship_city
+    , o.ship_state_province
+    , o.ship_zip_postal_code
+    , o.ship_country_region
+    , o.shipping_fee
+	, o.taxes
+    , o.payment_type
+    , od.quantity
+    , od.unit_price
+    , od.discount
+	, od.status_id
+    , os.status_name
+	
+FROM northwind.order_details AS od
+	, northwind.orders AS o
+    , northwind.order_status AS os
+    , northwind.order_details_status AS ods;
+
+
+
+
