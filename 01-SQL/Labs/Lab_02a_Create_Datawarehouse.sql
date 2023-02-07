@@ -109,28 +109,42 @@ CREATE TABLE `dim_suppliers` (
 -- To keep things simple, don't include purchase order or inventory info
 -- ----------------------------------------------------------------------
 DROP TABLE `fact_orders`;
-CREATE TABLE `fact_orders` AS
-SELECT o.order_date
-	, o.shipped_date
-	, o.ship_name
-	, o.ship_address
-    , o.ship_city
-    , o.ship_state_province
-    , o.ship_zip_postal_code
-    , o.ship_country_region
-    , o.shipping_fee
-	, o.taxes
-    , o.payment_type
-    , od.quantity
-    , od.unit_price
-    , od.discount
-	, od.status_id
-    , os.status_name
-	
-FROM northwind.order_details AS od
-	, northwind.orders AS o
-    , northwind.order_status AS os
-    , northwind.order_details_status AS ods;
+CREATE TABLE `fact_orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `employee_id` int DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
+  `order_date` datetime DEFAULT NULL,
+  `shipped_date` datetime DEFAULT NULL,
+  `shipper_id` int DEFAULT NULL,
+  `ship_name` varchar(50) DEFAULT NULL,
+  `ship_address` longtext,
+  `ship_city` varchar(50) DEFAULT NULL,
+  `ship_state_province` varchar(50) DEFAULT NULL,
+  `ship_zip_postal_code` varchar(50) DEFAULT NULL,
+  `ship_country_region` varchar(50) DEFAULT NULL,
+  `shipping_fee` decimal(19,4) DEFAULT '0.0000',
+  `status_id` tinyint DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `customer_id_2` (`customer_id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `employee_id_2` (`employee_id`),
+  KEY `id` (`id`),
+  KEY `id_2` (`id`),
+  KEY `shipper_id` (`shipper_id`),
+  KEY `shipper_id_2` (`shipper_id`),
+  KEY `id_3` (`id`),
+  KEY `tax_status` (`tax_status_id`),
+  KEY `ship_zip_postal_code` (`ship_zip_postal_code`),
+  KEY `fk_orders_orders_status1` (`status_id`),
+  CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `fk_orders_employees1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`),
+  CONSTRAINT `fk_orders_orders_status1` FOREIGN KEY (`status_id`) REFERENCES `orders_status` (`id`),
+  CONSTRAINT `fk_orders_orders_tax_status1` FOREIGN KEY (`tax_status_id`) REFERENCES `orders_tax_status` (`id`),
+  CONSTRAINT `fk_orders_shippers1` FOREIGN KEY (`shipper_id`) REFERENCES `shippers` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+
 
 
 

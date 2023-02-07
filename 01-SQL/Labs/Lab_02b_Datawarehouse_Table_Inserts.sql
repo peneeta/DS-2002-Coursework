@@ -162,7 +162,27 @@ TODO: Write a SELECT Statement that:
 - columns you're required to extract from each of the four tables. Pay close attention!
 --------------------------------------------------------------------------------------------------
 */
-
+SELECT o.order_date
+	, o.shipped_date
+	, o.ship_name
+	, o.ship_address
+    , o.ship_city
+    , o.ship_state_province
+    , o.ship_zip_postal_code
+    , o.ship_country_region
+    , o.shipping_fee
+	, o.taxes
+    , o.payment_type
+    , od.quantity
+    , od.unit_price
+    , od.discount
+	, od.status_id
+    , os.status_name
+	, ods.status_name
+FROM northwind.order_details AS od
+	, northwind.orders AS o
+    , northwind.order_status AS os
+    , northwind.order_details_status AS ods;
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
 -- ----------------------------------------------
