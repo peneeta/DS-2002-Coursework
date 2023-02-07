@@ -183,6 +183,7 @@ FROM northwind.order_details AS od
 	, northwind.orders AS o
     , northwind.order_status AS os
     , northwind.order_details_status AS ods;
+-- Add columns from insert into above
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
 -- ----------------------------------------------
