@@ -1,11 +1,11 @@
 -- --------------------------------------------------------------------------------------------------------------
 -- TODO: Extract the appropriate data from the northwind database, and INSERT it into the Northwind_DW database.
 -- --------------------------------------------------------------------------------------------------------------
-
+USE northwind_dw3;
 -- ----------------------------------------------
 -- Populate dim_customers
 -- ----------------------------------------------
-INSERT INTO `northwind_dw`.`dim_customers`
+INSERT INTO `northwind_dw3`.`dim_customers`
 (`customer_key`,
 `company`,
 `last_name`,
@@ -35,13 +35,13 @@ FROM northwind.customers;
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
 -- ----------------------------------------------
-SELECT * FROM northwind_dw.dim_customers;
+SELECT * FROM northwind_dw3.dim_customers;
 
 
 -- ----------------------------------------------
 -- Populate dim_employees
 -- ----------------------------------------------
-INSERT INTO `northwind_dw`.`dim_employees`
+INSERT INTO `northwind_dw3`.`dim_employees`
 (`employee_key`,
 `company`,
 `last_name`,
@@ -77,13 +77,13 @@ FROM `northwind`.`employees`;
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
 -- ----------------------------------------------
-SELECT * FROM northwind_dw.dim_employees;
+SELECT * FROM northwind_dw3.dim_employees;
 
 
 -- ----------------------------------------------
 -- Populate dim_products
 -- ----------------------------------------------
-INSERT INTO `northwind_dw`.`dim_products`
+INSERT INTO `northwind_dw3`.`dim_products`
 (`product_key`,
 `product_code`,
 `product_name`,
@@ -100,13 +100,13 @@ INSERT INTO `northwind_dw`.`dim_products`
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
 -- ----------------------------------------------
-SELECT * FROM northwind_dw.dim_products;
+SELECT * FROM northwind_dw3.dim_products;
 
 
 -- ----------------------------------------------
 -- Populate dim_shippers
 -- ----------------------------------------------
-INSERT INTO `northwind_dw`.`dim_shippers`
+INSERT INTO `northwind_dw3`.`dim_shippers`
 (`shipper_key`,
 `company`,
 `address`,
@@ -119,14 +119,14 @@ INSERT INTO `northwind_dw`.`dim_shippers`
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
 -- ----------------------------------------------
-SELECT * FROM northwind_dw.dim_shippers;
+SELECT * FROM northwind_dw3.dim_shippers;
 
 
 
 -- ----------------------------------------------
 -- Populate fact_orders
 -- ----------------------------------------------
-INSERT INTO `northwind_dw`.`fact_orders`
+INSERT INTO `northwind_dw3`.`fact_orders`
 (`order_key`,
 `employee_key`,
 `customer_key`,
@@ -162,29 +162,38 @@ TODO: Write a SELECT Statement that:
 - columns you're required to extract from each of the four tables. Pay close attention!
 --------------------------------------------------------------------------------------------------
 */
-SELECT o.order_date
-	, o.shipped_date
+SELECT o.id
+	, o.employee_id
+	, o.customer_id
+    , od.product_id
+    , o.shipper_id
 	, o.ship_name
 	, o.ship_address
     , o.ship_city
     , o.ship_state_province
     , o.ship_zip_postal_code
     , o.ship_country_region
-    , o.shipping_fee
-	, o.taxes
-    , o.payment_type
     , od.quantity
+    , o.order_date
+    , o.shipped_date
     , od.unit_price
     , od.discount
-	, od.status_id
-    , os.status_name
-	, ods.status_name
-FROM northwind.order_details AS od
-	, northwind.orders AS o
-    , northwind.order_status AS os
-    , northwind.order_details_status AS ods;
--- Add columns from insert into above
+	, o.shipping_fee
+    , o.taxes
+    , o.payment_type
+    , o.paid_date
+    , o.tax_rate
+    , os.status_name AS order_status
+	, ods.status_name AS order_details_status
+FROM northwind.orders AS o
+INNER JOIN northwind.orders_status AS os
+ON o.status_id = os.id
+RIGHT OUTER JOIN northwind.order_details AS od
+ON o.id = od.order_id
+INNER JOIN northwind.order_details_status AS ods
+ON od.status_id = ods.id;
+
 -- ----------------------------------------------
 -- Validate that the Data was Inserted ----------
 -- ----------------------------------------------
-SELECT * FROM northwind_dw.fact_orders;
+SELECT * FROM northwind_dw3.fact_orders;

@@ -115,6 +115,13 @@ CREATE TABLE `fact_orders`(
 	`employee_key` int DEFAULT NULL,
 	`customer_key` int DEFAULT NULL,
     `product_key` int DEFAULT NULL,
+    `shipper_key` int DEFAULT NULL,
+    `ship_name` VARCHAR(50) NULL DEFAULT NULL,
+	`ship_address` LONGTEXT NULL DEFAULT NULL,
+	`ship_city` VARCHAR(50) NULL DEFAULT NULL,
+	`ship_state_province` VARCHAR(50) NULL DEFAULT NULL,
+	`ship_zip_postal_code` VARCHAR(50) NULL DEFAULT NULL,
+	`ship_country_region` VARCHAR(50) NULL DEFAULT NULL,
 	`quantity` DECIMAL(18,4) NOT NULL DEFAULT '0.0000',
     `order_date` datetime DEFAULT NULL,
     `shipped_date` DATETIME NULL DEFAULT NULL,
@@ -131,7 +138,8 @@ CREATE TABLE `fact_orders`(
     KEY `order_key` (`order_key`),
 	KEY `customer_key` (`customer_key`),
 	KEY `employee_key` (`employee_key`),
-    KEY `product_key` (`product_key`)
+    KEY `product_key` (`product_key`),
+    KEY `shipper_key` (`shipper_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4;
 
 TRUNCATE TABLE `northwind_dw3`.`fact_orders`;
