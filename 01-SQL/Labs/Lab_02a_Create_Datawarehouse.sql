@@ -114,20 +114,24 @@ CREATE TABLE `fact_orders`(
     `order_key` int DEFAULT NULL,
 	`employee_key` int DEFAULT NULL,
 	`customer_key` int DEFAULT NULL,
-	`order_date` datetime DEFAULT NULL,
+    `product_key` int DEFAULT NULL,
+	`quantity` DECIMAL(18,4) NOT NULL DEFAULT '0.0000',
+    `order_date` datetime DEFAULT NULL,
+    `shipped_date` DATETIME NULL DEFAULT NULL,
+	`unit_price` DECIMAL(19,4) NULL DEFAULT '0.0000',
+	`discount` DOUBLE NOT NULL DEFAULT '0',
+    `shipping_fee` DECIMAL(19,4) NULL DEFAULT '0.0000',
 	`taxes` decimal(19,4) DEFAULT '0.0000',
 	`payment_type` varchar(50) DEFAULT NULL,
 	`paid_date` datetime DEFAULT NULL,
 	`tax_rate` double DEFAULT '0',
-	`tax_status_id` tinyint DEFAULT NULL,
-	`status_id` tinyint DEFAULT '0',
-    
+	`order_status` varchar(50) NOT NULL,
+    `order_details_status` varchar(50) NOT NULL,
 	PRIMARY KEY (`fact_order_key`),
     KEY `order_key` (`order_key`),
 	KEY `customer_key` (`customer_key`),
 	KEY `employee_key` (`employee_key`),
-    KEY `product_key` (`product_key`),
-	KEY `tax_status` (`tax_status_id`)
+    KEY `product_key` (`product_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4;
 
 TRUNCATE TABLE `northwind_dw3`.`fact_orders`;
